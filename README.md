@@ -12,5 +12,5 @@ The idea of this package is to help answer questions like:
 2. How many articles new user reads before making his first comment?
 3. How many times user visit website between first and second purchases?
 
-*Any assumption that can be described in terms of events pattern can be validated with this tool.*
+*Any assumption that can be described in terms of events sequence, can be validated with this tool.*
 

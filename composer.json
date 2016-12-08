@@ -12,9 +12,23 @@
     {
       "type": "vcs",
       "url": "https://github.com/lezhnev74/light-fsm.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/lezhnev74/matchmaker.git"
     }
   ],
   "require": {
-    "tmilos/light-fsm": "dev-master"
+    "tmilos/light-fsm": "dev-master",
+    "cdrubin/matchmaker": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.5.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Lezhnev74\\EventsPatternMatcher\\": "src/",
+      "Lezhnev74\\EventsPatternMatcher\\Tests\\": "tests/"
+    }
   }
 }
