@@ -21,14 +21,20 @@ class Config
         } catch (\Exception $e) {
             throw new BadConfig($e->getMessage());
         }
+        if (!count($config['event_states'])) {
+            throw new BadConfig("Config contains no events");
+        }
     }
     
     private function validateStructure(array $config): void
     {
+        //
+        // All the config is described with this pattern
+        //
         $pattern = [
             "event_states" => [
                 "*" => [
-                    "name"        => ":string min(1)",
+                    "name"         => ":string min(1)",
                     "transitions?" => [
                         "*" => [
                             "to" => ":string min(1)",

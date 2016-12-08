@@ -1,6 +1,8 @@
 # Events pattern matcher
 Describe the pattern and match it agains a sequence of events (works kind of like regexps for strings).
 
+![vizualise idea](./idea.jpg "Visualize idea")
+
 ## Purpose
 This package is intended to use to analyze users behaviour in any given system (app or website) based on the events they trigger while working with the system.
 
