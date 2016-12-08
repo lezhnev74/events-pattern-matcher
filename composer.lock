@@ -1,0 +1,71 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "a47a11c3bab06ca3210c5b485fd49556",
+    "content-hash": "1fd763f4bb97188f1746f27fe444e991",
+    "packages": [
+        {
+            "name": "tmilos/light-fsm",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lezhnev74/light-fsm.git",
+                "reference": "6dd55e5b74bcef3092be52f6f4dee70986b6e045"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lezhnev74/light-fsm/zipball/6dd55e5b74bcef3092be52f6f4dee70986b6e045",
+                "reference": "6dd55e5b74bcef3092be52f6f4dee70986b6e045",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.5.*",
+                "satooshi/php-coveralls": "~0.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "LightFsm\\Tests\\": "tests/",
+                    "LightFsm\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milos Tomic",
+                    "email": "tmilos@gmail.com"
+                }
+            ],
+            "description": "Light and simple finite state machine with nice API for automatic workflow and external state, with export to dot feature",
+            "keywords": [
+                "dot",
+                "export to dot",
+                "external state",
+                "finite state machine",
+                "fsm",
+                "state machine",
+                "statemachine",
+                "workflow"
+            ],
+            "support": {
+                "source": "https://github.com/lezhnev74/light-fsm/tree/master"
+            },
+            "time": "2016-12-07 17:09:01"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "tmilos/light-fsm": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

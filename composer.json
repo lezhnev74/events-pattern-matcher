@@ -1,0 +1,20 @@
+{
+  "name": "lezhnev74/events-pattern-matcher",
+  "description": "Describe the pattern and match it agains a sequence of events (works kind of like regexps for strings)",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dmitriy Lezhnev",
+      "email": "lezhenv.work@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/lezhnev74/light-fsm.git"
+    }
+  ],
+  "require": {
+    "tmilos/light-fsm": "dev-master"
+  }
+}
