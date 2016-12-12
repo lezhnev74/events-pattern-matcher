@@ -3,6 +3,10 @@
 namespace Lezhnev74\EventsPatternMatcher\Data\Pattern\Config;
 
 
+use Fhaculty\Graph\Graph;
+use Fhaculty\Graph\Vertex;
+use Graphp\Algorithms\ConnectedComponents;
+use Graphp\Algorithms\ShortestPath\BreadthFirst;
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\State\State;
 
 
@@ -15,7 +19,11 @@ use Lezhnev74\EventsPatternMatcher\Data\Pattern\State\State;
 class Config
 {
     private $config;
-    private $reserved_event_names = ['__FINAL__', '__BEGIN__'];
+    
+    /**
+     * @var Graph
+     */
+    private $graph;
     
     public function __construct(array $config)
     {
@@ -36,27 +44,21 @@ class Config
         }
         
         // This is to make ESG => CESG ()
-        $this->validateGraph();
-        $this->addFinalAndEntryStates();
-        $this->validateCompleteness();
+        $this->validateEventNames();
+        
+        //
+        // Now make a graph from the config
+        //
+        $this->makeGraph();
+        $this->makeTrailingVertexes();
+        
+        //
+        // Now make validation of the graph
+        //
+        $this->validateReachability();
+        
     }
     
-    private function addFinalAndEntryStates()
-    {
-        
-        //
-        // Add Final point ...---->FINAL
-        //
-        $this->config[] = [
-            'name' => '__FINAL__',
-        ];
-        
-        //
-        // Add ENtry point ENTRY--->....
-        //
-        $this->config = array_merge(['name' => '__BEGIN__'], $this->config);
-        
-    }
     
     private function validateStructure(): void
     {
@@ -80,22 +82,14 @@ class Config
     /**
      * Validate contents of the graph
      */
-    private function validateGraph()
+    private function validateEventNames()
     {
         //
-        // Protect uniqueness of state names
+        // Collect all event names
         //
         $state_names = [];
         foreach ($this->config as $state) {
             if (!in_array($state['name'], $state_names)) {
-                
-                //
-                // Make sure reserved words are not used
-                //
-                if (in_array($state['name'], $this->reserved_event_names)) {
-                    throw new BadConfig("Event with reserved word found:" . $state['name']);
-                }
-                
                 $state_names[] = $state['name'];
             }
         }
@@ -117,42 +111,167 @@ class Config
         
     }
     
-    private function validateCompleteness()
+    private function validateReachability()
     {
         //
-        // CESG (Complete ESG)
+        // Make sure all the vertexes are connected in single graph
         //
+        $alg = new ConnectedComponents($this->graph);
+        if (!$alg->isSingle()) {
+            throw new BadConfig("Config has isolated components on the graph");
+        }
+        
+        $entry_vertex = $this->getEntryVertex();
+        $final_vertex = $this->getFinalVertex();
+        
         
         //
         // Make sure that each vertex is reachable from the input point
         //
+        $alg = new BreadthFirst($entry_vertex);
+        foreach ($this->graph->getVertices() as $vertex) {
+            if ($vertex->getId() == $final_vertex->getId() || $vertex->getId() == $entry_vertex->getId()) {
+                // skip final vertex from analysis
+                continue;
+            }
+            
+            if (!$alg->getDistance($vertex)) {
+                throw new BadConfig("Event[" . $vertex->getAttribute('event_name') . "] has no path from Entry point");
+            }
+        }
+        
         
         //
         // Make sure that each final point is reachable from any vertex
         //
+        
+        foreach ($this->graph->getVertices() as $vertex) {
+            if ($vertex->getId() == $final_vertex->getId() || $vertex->getId() == $entry_vertex->getId()) {
+                // skip final vertex from analysis
+                continue;
+            }
+            $alg = new BreadthFirst($vertex);
+            if (!$alg->getDistance($final_vertex)) {
+                throw new BadConfig("Event[" . $vertex->getAttribute('event_name') . "] has no path to Final point");
+            }
+        }
+    }
+    
+    
+    /**
+     * Will make up a graph based on Config data
+     * Currently used a graph from https://github.com/graphp/algorithms
+     */
+    private function makeGraph()
+    {
+        $this->graph = new Graph();
+        
+        //
+        // Make all vertexes
+        //
+        foreach ($this->config as $item) {
+            $vertex = $this->graph->createVertex();
+            $vertex->setAttribute('event_name', $item['name']);
+        }
+        
+        //
+        // Make all edges
+        //
+        foreach ($this->config as $item) {
+            
+            $vertex = $this->graph->getVertices()->getVertexMatch(function (Vertex $vertex) use ($item) {
+                return $vertex->getAttribute('event_name') == $item['name'];
+            });
+            
+            if (isset($item['ways'])) {
+                foreach ($item['ways'] as $way) {
+                    // find existing vertex by it's event name
+                    $target_vertex = $this->graph->getVertices()->getVertexMatch(function (Vertex $vertex) use ($way) {
+                        return $vertex->getAttribute('event_name') == $way['then'];
+                    });
+                    // attach a directed edge between them
+                    $vertex->createEdgeTo($target_vertex);
+                }
+            }
+        }
+        
+    }
+    
+    function makeTrailingVertexes()
+    {
+        //
+        // Add entry vertex
+        //
+        $entry_points = [];
+        // find all vertexes with no incoming edges
+        foreach ($this->graph->getVertices() as $vertex) {
+            if (!$vertex->getEdgesIn()->count()) {
+                $entry_points[] = $vertex;
+            }
+        }
+        // Make input vertex
+        $entry_vertex = $this->graph->createVertex();
+        $entry_vertex->setAttribute('__begin__', true);
+        // Link entry vertex with each vertex which had no incomings
+        foreach ($entry_points as $vertex) {
+            $entry_vertex->createEdgeTo($vertex);
+        }
+        
+        //
+        // Add out vertex
+        //
+        $final_points = [];
+        // find all vertexes with no incoming edges
+        foreach ($this->graph->getVertices() as $vertex) {
+            if (!$vertex->getEdgesOut()->count()) {
+                $final_points[] = $vertex;
+            }
+        }
+        // Make input vertex
+        $final_vertex = $this->graph->createVertex();
+        $final_vertex->setAttribute('__final__', true);
+        // Link entry vertex with each vertex which had no incomings
+        foreach ($final_points as $vertex) {
+            $vertex->createEdgeTo($final_vertex);
+        }
     }
     
     /**
-     * Create states and return those as array of Objects
+     * Get entry vertex
      *
-     * @return array
+     * @return Vertex|null
      */
-    public function getStates(): array
+    function getEntryVertex()
     {
-        $states = [];
-        foreach ($this->config['states'] as $config_state) {
-            //
-            // Prepare state's transitions
-            //
-            $transitions = [];
-            
-            //
-            //
-            //
-            $states[] = new State($config_state['name']);
-        }
+        $vertex = $this->graph->getVertices()->getVertexMatch(function (Vertex $vertex) {
+            return $vertex->getAttribute('__begin__') === true;
+        });
         
-        return $states;
+        return $vertex;
     }
+    
+    /**
+     * Get final vertex
+     *
+     * @return Vertex|null
+     */
+    function getFinalVertex()
+    {
+        $vertex = $this->graph->getVertices()->getVertexMatch(function (Vertex $vertex) {
+            return $vertex->getAttribute('__final__') === true;
+        });
+        
+        return $vertex;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function getGraph()
+    {
+        return $this->graph;
+    }
+    
     
 }

@@ -17,6 +17,7 @@ class PatternConfigTest extends \PHPUnit_Framework_TestCase
     
     function badConfigProvider() {
         return [
+            // event which leads to nowhere
             [
                 [
                     [
@@ -29,6 +30,7 @@ class PatternConfigTest extends \PHPUnit_Framework_TestCase
                     ],
                 ]
             ],
+            // event which is detached and not connnected to any other vertex
             [
                 [
                     [
@@ -58,6 +60,6 @@ class PatternConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException(BadConfig::class);
         
-        new Config($pattern_config);
+        $config = new Config($pattern_config);
     }
 }
