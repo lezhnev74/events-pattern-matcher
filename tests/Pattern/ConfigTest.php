@@ -1,21 +1,22 @@
 <?php
 
-namespace Lezhnev74\EventsPatternMatcher\Tests;
+namespace Lezhnev74\EventsPatternMatcher\Tests\Pattern;
 
 
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\Config\BadConfig;
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\Config\Config;
 
-class PatternConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     function test_it_accepts_good_config()
     {
-        list($pattern_config, $events) = DataProvider::getSetA();
+        list($pattern_config, $events) = PatternDataProvider::getSetA();
         
         new Config($pattern_config);
     }
     
-    function badConfigProvider() {
+    function badConfigProvider()
+    {
         return [
             // event which leads to nowhere
             [
@@ -28,14 +29,14 @@ class PatternConfigTest extends \PHPUnit_Framework_TestCase
                             ],
                         ],
                     ],
-                ]
+                ],
             ],
-            // event which is detached and not connnected to any other vertex
+            // event which does not have a good name field
             [
                 [
                     [
-                        "name" => "login",
-                        "ways" => [
+                        "nameWRONG" => "login",
+                        "ways"  => [
                             [
                                 "then" => "search",
                             ],
@@ -44,16 +45,30 @@ class PatternConfigTest extends \PHPUnit_Framework_TestCase
                     [
                         "name" => "search",
                     ],
+                ],
+            ],
+            // event which does not have a good ways field
+            [
+                [
                     [
-                        "name" => "detached_state",
+                        "name" => "login",
+                        "ways"  => [
+                            [
+                                "thenWrong" => "search",
+                            ],
+                        ],
                     ],
-                ]
+                    [
+                        "name" => "search",
+                    ],
+                ],
             ],
         ];
     }
     
     /**
      * @param $pattern_config
+     *
      * @dataProvider badConfigProvider
      */
     function test_it_rejects_bad_config($pattern_config)

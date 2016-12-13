@@ -1,9 +1,9 @@
 <?php
 
-namespace Lezhnev74\EventsPatternMatcher\Tests;
+namespace Lezhnev74\EventsPatternMatcher\Tests\Pattern;
 
 
-class DataProvider
+class PatternDataProvider
 {
     static function getSetA()
     {
