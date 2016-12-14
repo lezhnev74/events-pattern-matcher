@@ -32,5 +32,25 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
         
     }
     
+    function test_service_detects_sequence_which_does_not_match_the_pattern()
+    {
+        
+        // Set A
+        list($pattern_config, $events) = PatternDataProvider::getSetA_no_match();
+        
+        $config   = new Config($pattern_config);
+        $pattern  = new Pattern($config);
+        $sequence = Sequence::fromArray($events);
+        
+        // call a service
+        $request = new ApplyPatternRequest($pattern, $sequence);
+        $service = new ApplyPattern($request);
+        $report  = $service->execute();
+        
+        // make sure we get to the final point
+        $this->assertFalse($report->isMatched());
+        
+    }
+    
     
 }

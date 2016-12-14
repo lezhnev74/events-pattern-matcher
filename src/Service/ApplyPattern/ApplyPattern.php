@@ -34,22 +34,37 @@ class ApplyPattern implements Service
     
     function execute(): Report
     {
+        $matched       = false;
+        $pattern       = $this->request->getPattern();
+        $sequence      = $this->request->getSequence();
+        $state_machine = $this->state_machine;
+        
         //
         // Now execute the event sequence one by one
         //
-        foreach ($this->request->getSequence()->getEvents() as $event) {
-            $this->state_machine->fire($event->getName());
+        foreach ($sequence->getEvents() as $event) {
+            $state_machine->fire($event->getName());
+            
+            
+            //
+            // Detect if we reached the final vertex
+            //
+            $current_state          = $state_machine->getCurrentState();
+            $current_pattern_vertex = $pattern->getVertexById($current_state);
+            if ($pattern->isFinalVertex($current_pattern_vertex)) {
+                $matched = true;
+                break;
+            }
         }
         
-        $result = true;
-        
-        $report = new Report($result);
+        $report = new Report($matched);
         
         return $report;
     }
     
     /**
      * Prepare a state machine based on given Pattern graph
+     * All states are marked as Graph's vertex IDs, transitions are marked as event names
      *
      * @param Pattern $pattern
      *
@@ -57,19 +72,18 @@ class ApplyPattern implements Service
      */
     private function makeMachine(Pattern $pattern): StateMachine
     {
-        $initial_event_name = $pattern->getEventNameOfVertex($pattern->getEntryVertex());
-        $sm                 = new StateMachine($initial_event_name);
+        $initial_state = $pattern->getEntryVertex();
+        $sm            = new StateMachine($initial_state->getId());
         
         foreach ($pattern->getVertices() as $vertex) {
-            $event_name = $pattern->getEventNameOfVertex($vertex);
-            $state      = $sm->configure($event_name);
+            $state = $sm->configure($vertex->getId());
             foreach ($vertex->getEdgesOut() as $edge) {
-                $target_vertex    = $edge->getVertexEnd();
-                $tager_event_name = $pattern->getEventNameOfVertex($target_vertex);
+                $target_vertex     = $edge->getVertexEnd();
+                $target_event_name = $pattern->getEventNameOfVertex($target_vertex);
                 //
                 // Allow transfer to the next state
                 //
-                $state->permit($tager_event_name, $tager_event_name);
+                $state->permit($target_event_name, $target_vertex->getId());
             }
         }
         

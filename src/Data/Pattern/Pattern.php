@@ -34,6 +34,8 @@ class Pattern extends Graph
         $this->makeTrailingVertexes();
         // Make sure each vertex is reachable from entry point and to final point
         $this->validateReachability();
+        // Remove final vertex as it was used for validation purpose only
+        $this->removeEndingVertex();
     }
     
     /**
@@ -170,6 +172,16 @@ class Pattern extends Graph
         }
     }
     
+    /**
+     * After validation is over - I don't need the final vertex no more
+     * Any vertex which has no outgoing vertexes is considered final
+     */
+    private function removeEndingVertex()
+    {
+        $final_vertex = $this->getFinalVertex();
+        $final_vertex->destroy();
+    }
+    
     
     /**
      * Get entry vertex
@@ -213,5 +225,13 @@ class Pattern extends Graph
         $vertex->setAttribute('event_name', $name);
     }
     
+    public function getVertexById($id)
+    {
+        return $this->getVertices()->getVertexId($id);
+    }
     
+    public function isFinalVertex(Vertex $vertex)
+    {
+        return !(bool)$vertex->getEdgesOut()->count();
+    }
 }

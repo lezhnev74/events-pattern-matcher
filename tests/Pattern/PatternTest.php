@@ -24,6 +24,11 @@ class PatternTest extends \PHPUnit_Framework_TestCase
         $config  = new Config($pattern_config);
         $pattern = new Pattern($config);
         
+        // Debug: show the graph
+        //$graphviz = new GraphViz();
+        //var_dump($graphviz->createImageFile($pattern));
+        //var_dump($graphviz->createImageFile($pattern));
+        
     }
     
     function test_it_will_protect_from_many_components_in_graph()

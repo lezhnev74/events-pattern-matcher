@@ -45,6 +45,45 @@ class PatternDataProvider
         return [$pattern_config, $events];
     }
     
+    static function getSetA_no_match()
+    {
+        $pattern_config = [
+            [
+                "name" => "login",
+                "ways" => [
+                    [
+                        "then" => "search",
+                    ],
+                ],
+            ],
+            [
+                "name" => "search",
+                "ways" => [
+                    [
+                        "then" => "checkout",
+                    ],
+                ],
+            ],
+            [
+                "name" => "checkout",
+            ],
+        ];
+        
+        $events = [
+            ["name" => "A"],
+            ["name" => "B"],
+            ["name" => "login"],
+            ["name" => "C"],
+            ["name" => "search"],
+            ["name" => "D"],
+            ["name" => "D"],
+            ["name" => "E"],
+            ["name" => "C"],
+        ];
+        
+        return [$pattern_config, $events];
+    }
+    
     static function getSetB()
     {
         $pattern_config = [
