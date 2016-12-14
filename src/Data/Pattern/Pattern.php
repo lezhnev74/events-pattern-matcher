@@ -47,7 +47,7 @@ class Pattern extends Graph
         //
         foreach ($this->config->getConfig() as $item) {
             $vertex = $this->createVertex();
-            $vertex->setAttribute('event_name', $item['name']);
+            $this->setEventNameOfVertex($vertex, $item['name']);
         }
         
         //
@@ -56,14 +56,14 @@ class Pattern extends Graph
         foreach ($this->config->getConfig() as $item) {
             
             $vertex = $this->getVertices()->getVertexMatch(function (Vertex $vertex) use ($item) {
-                return $vertex->getAttribute('event_name') == $item['name'];
+                return $this->getEventNameOfVertex($vertex) == $item['name'];
             });
             
             if (isset($item['ways'])) {
                 foreach ($item['ways'] as $way) {
                     // find existing vertex by it's event name
                     $target_vertex = $this->getVertices()->getVertexMatch(function (Vertex $vertex) use ($way) {
-                        return $vertex->getAttribute('event_name') == $way['then'];
+                        return $this->getEventNameOfVertex($vertex) == $way['then'];
                     });
                     // attach a directed edge between them
                     $vertex->createEdgeTo($target_vertex);
@@ -108,7 +108,7 @@ class Pattern extends Graph
             }
             
             if (!$alg->getDistance($vertex)) {
-                throw new BadPattern("Event[" . $vertex->getAttribute('event_name') . "] has no path from Entry point");
+                throw new BadPattern("Event[" . $this->getEventNameOfVertex($vertex) . "] has no path from Entry point");
             }
         }
         
@@ -122,7 +122,7 @@ class Pattern extends Graph
             }
             $alg = new BreadthFirst($vertex);
             if (!$alg->getDistance($final_vertex)) {
-                throw new BadPattern("Event[" . $vertex->getAttribute('event_name') . "] has no path to Final point");
+                throw new BadPattern("Event[" . $this->getEventNameOfVertex($vertex) . "] has no path to Final point");
             }
         }
     }
@@ -198,5 +198,20 @@ class Pattern extends Graph
         
         return $vertex;
     }
-        
+    
+    //
+    // Event name accessors
+    //
+    
+    public function getEventNameOfVertex(Vertex $vertex)
+    {
+        return $vertex->getAttribute('event_name');
+    }
+    
+    public function setEventNameOfVertex(Vertex $vertex, string $name)
+    {
+        $vertex->setAttribute('event_name', $name);
+    }
+    
+    
 }
