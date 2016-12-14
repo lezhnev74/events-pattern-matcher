@@ -6,25 +6,28 @@ use Fhaculty\Graph\Vertex;
 use Graphp\Algorithms\ConnectedComponents;
 use Graphp\Algorithms\ShortestPath\BreadthFirst;
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\Config\Config;
-use Lezhnev74\EventsPatternMatcher\Data\Pattern\BadPattern;
 
-class Pattern
+class Pattern extends Graph
 {
     /**
      * @var Config
      */
     private $config;
-    /**
-     * @var Graph
-     */
-    private $graph;
     
+    /**
+     * Pattern constructor.
+     *
+     * @param Config $config
+     */
     public function __construct(Config $config)
     {
-        $this->config = $config;
+        parent::__construct();
         
-        // Make up a graph from valid config
-        $this->makeGraph();
+        //
+        // Prepare pattern's graph
+        //
+        $this->config = $config;
+        $this->initFromConfig();
         // Make sure it has single component
         $this->validateConnectedness();
         // Add Entry\Final vertexes
@@ -37,15 +40,13 @@ class Pattern
      * Will make up a graph based on Config data
      * Currently used a graph from https://github.com/graphp/algorithms
      */
-    private function makeGraph()
+    private function initFromConfig()
     {
-        $this->graph = new Graph();
-        
         //
         // Make all vertexes
         //
         foreach ($this->config->getConfig() as $item) {
-            $vertex = $this->graph->createVertex();
+            $vertex = $this->createVertex();
             $vertex->setAttribute('event_name', $item['name']);
         }
         
@@ -54,14 +55,14 @@ class Pattern
         //
         foreach ($this->config->getConfig() as $item) {
             
-            $vertex = $this->graph->getVertices()->getVertexMatch(function (Vertex $vertex) use ($item) {
+            $vertex = $this->getVertices()->getVertexMatch(function (Vertex $vertex) use ($item) {
                 return $vertex->getAttribute('event_name') == $item['name'];
             });
             
             if (isset($item['ways'])) {
                 foreach ($item['ways'] as $way) {
                     // find existing vertex by it's event name
-                    $target_vertex = $this->graph->getVertices()->getVertexMatch(function (Vertex $vertex) use ($way) {
+                    $target_vertex = $this->getVertices()->getVertexMatch(function (Vertex $vertex) use ($way) {
                         return $vertex->getAttribute('event_name') == $way['then'];
                     });
                     // attach a directed edge between them
@@ -81,7 +82,7 @@ class Pattern
         //
         // Make sure all the vertexes are connected in single graph
         //
-        $alg = new ConnectedComponents($this->graph);
+        $alg = new ConnectedComponents($this);
         if (!$alg->isSingle()) {
             throw new BadPattern("Graph has isolated components");
         }
@@ -100,7 +101,7 @@ class Pattern
         // Make sure that each vertex is reachable from the input point
         //
         $alg = new BreadthFirst($entry_vertex);
-        foreach ($this->graph->getVertices() as $vertex) {
+        foreach ($this->getVertices() as $vertex) {
             if ($vertex->getId() == $final_vertex->getId() || $vertex->getId() == $entry_vertex->getId()) {
                 // skip final vertex from analysis
                 continue;
@@ -114,7 +115,7 @@ class Pattern
         //
         // Make sure that each final point is reachable from any vertex
         //
-        foreach ($this->graph->getVertices() as $vertex) {
+        foreach ($this->getVertices() as $vertex) {
             if ($vertex->getId() == $final_vertex->getId() || $vertex->getId() == $entry_vertex->getId()) {
                 // skip final vertex from analysis
                 continue;
@@ -137,13 +138,13 @@ class Pattern
         //
         $entry_points = [];
         // find all vertexes with no incoming edges
-        foreach ($this->graph->getVertices() as $vertex) {
+        foreach ($this->getVertices() as $vertex) {
             if (!$vertex->getEdgesIn()->count()) {
                 $entry_points[] = $vertex;
             }
         }
         // Make input vertex
-        $entry_vertex = $this->graph->createVertex();
+        $entry_vertex = $this->createVertex();
         $entry_vertex->setAttribute('__begin__', true);
         // Link entry vertex with each vertex which had no incomings
         foreach ($entry_points as $vertex) {
@@ -155,13 +156,13 @@ class Pattern
         //
         $final_points = [];
         // find all vertexes with no incoming edges
-        foreach ($this->graph->getVertices() as $vertex) {
+        foreach ($this->getVertices() as $vertex) {
             if (!$vertex->getEdgesOut()->count()) {
                 $final_points[] = $vertex;
             }
         }
         // Make input vertex
-        $final_vertex = $this->graph->createVertex();
+        $final_vertex = $this->createVertex();
         $final_vertex->setAttribute('__final__', true);
         // Link entry vertex with each vertex which had no incomings
         foreach ($final_points as $vertex) {
@@ -177,7 +178,7 @@ class Pattern
      */
     function getEntryVertex()
     {
-        $vertex = $this->graph->getVertices()->getVertexMatch(function (Vertex $vertex) {
+        $vertex = $this->getVertices()->getVertexMatch(function (Vertex $vertex) {
             return $vertex->getAttribute('__begin__') === true;
         });
         
@@ -191,21 +192,11 @@ class Pattern
      */
     function getFinalVertex()
     {
-        $vertex = $this->graph->getVertices()->getVertexMatch(function (Vertex $vertex) {
+        $vertex = $this->getVertices()->getVertexMatch(function (Vertex $vertex) {
             return $vertex->getAttribute('__final__') === true;
         });
         
         return $vertex;
     }
-    
-    
-    /**
-     * @return mixed
-     */
-    public function getGraph()
-    {
-        return $this->graph;
-    }
-    
-    
+        
 }
