@@ -8,10 +8,12 @@ namespace Lezhnev74\EventsPatternMatcher\Data\Report;
 class Report
 {
     private $result;
+    private $matchedEvents = [];
     
-    public function __construct(bool $result)
+    public function __construct(bool $result, array $matchedEvents = [])
     {
-        $this->result = $result;
+        $this->result          = $result;
+        $this->matchedEvents = $matchedEvents;
     }
     
     /**
@@ -22,5 +24,11 @@ class Report
         return $this->result;
     }
     
+    
+    /** Get all events that was found in the sequence of events */
+    function getMatchedEvents(): array
+    {
+        return $this->matchedEvents;
+    }
     
 }

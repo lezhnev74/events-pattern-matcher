@@ -2,6 +2,7 @@
 
 namespace Lezhnev74\EventsPatternMatcher\Tests\Pattern;
 
+use Fhaculty\Graph\Graph;
 use Graphp\GraphViz\GraphViz;
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\BadPattern;
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\Config\Config;
@@ -47,4 +48,57 @@ class PatternTest extends \PHPUnit_Framework_TestCase
         new Pattern($config);
     }
     
+    function test_it_accepts_loops_in_config()
+    {
+        $pattern_config = [
+            [
+                "name" => "login",
+                "ways" => [
+                    [
+                        "then" => "search",
+                    ],
+                ],
+            ],
+            [
+                "name" => "search",
+                "ways" => [
+                    [
+                        "then" => "search",
+                    ],
+                    [
+                        "then" => "checkout",
+                    ],
+                ],
+            
+            ],
+            [
+                "name" => "checkout",
+            ],
+        ];
+        
+        $config  = new Config($pattern_config);
+        $pattern = new Pattern($config);
+        
+        foreach ($pattern->getVertices() as $vertex) {
+            echo $pattern->getEventNameOfVertex($vertex) . " has edges_out: " . count($vertex->getEdgesOut()) . "\n";
+        }
+        
+//        $graph  = new Graph();
+//        $vertex = $graph->createVertex();
+    
+//        echo $vertex->getEdgesOut()->getEdgesDistinct()->count(); // will give us 0
+//        echo $vertex->getEdgesIn()->getEdgesDistinct()->count(); // will give us 0
+//
+//        $vertex->createEdgeTo($vertex);
+//
+//        echo $vertex->getEdgesOut()->getEdgesDistinct()->count(); // will give us 2
+//        echo $vertex->getEdgesIn()->getEdgesDistinct()->count(); // will give us 2
+        
+        
+        //$graphviz = new GraphViz();
+        //var_dump($graphviz->createScript($pattern));
+        //var_dump($graphviz->createImageFile($pattern));
+        
+        
+    }
 }

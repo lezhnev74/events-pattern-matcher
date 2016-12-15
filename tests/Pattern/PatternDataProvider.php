@@ -137,4 +137,58 @@ class PatternDataProvider
         
         return [$pattern_config, $events];
     }
+    
+    static function getSetLoop()
+    {
+        $pattern_config = [
+            [
+                "name" => "login",
+                "ways" => [
+                    [
+                        "then" => "search",
+                    ],
+                ],
+            ],
+            // search and results are in circle
+            [
+                "name" => "search",
+                "ways" => [
+                    [
+                        "then" => "checkout",
+                    ],
+                    [
+                        "then" => "results",
+                    ],
+                ],
+            ],
+            [
+                "name" => "results",
+                "ways" => [
+                    [
+                        "then" => "search",
+                    ],
+                ],
+            ],
+            [
+                "name" => "checkout",
+            ],
+        ];
+        
+        $events = [
+            ["name" => "A"],
+            ["name" => "B"],
+            ["name" => "login"],
+            ["name" => "C"],
+            ["name" => "search"],
+            ["name" => "results"],
+            ["name" => "search"],
+            ["name" => "results"],
+            ["name" => "search"],
+            ["name" => "checkout"],
+            ["name" => "E"],
+            ["name" => "C"],
+        ];
+        
+        return [$pattern_config, $events];
+    }
 }
