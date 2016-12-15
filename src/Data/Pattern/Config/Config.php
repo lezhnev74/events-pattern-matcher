@@ -7,6 +7,8 @@ namespace Lezhnev74\EventsPatternMatcher\Data\Pattern\Config;
  * Class Config
  * Purpose is to validate that given JSON-array is a valid configuration for a Pattern
  *
+ * TODO allow multiple vertexes to have the same event name (for complex patterns with many equal events)
+ *
  * @package Lezhnev74\EventsPatternMatcher\Data\Pattern\Config
  */
 class Config
@@ -54,10 +56,11 @@ class Config
         //
         $pattern = [
             "*" => [
-                "name"  => ":string min(1)",
+                "id"    => ":integer", // unique ID of the vertex
+                "name"  => ":string min(1)", // event_name, can be duplicated in many vertexes
                 "ways?" => [
                     "*" => [
-                        "then" => ":string min(1)",
+                        "then" => ":integer",
                     ],
                 ],
             ],
@@ -74,10 +77,10 @@ class Config
         //
         // Collect all event names
         //
-        $state_names = [];
+        $states = [];
         foreach ($this->config as $state) {
-            if (!in_array($state['name'], $state_names)) {
-                $state_names[] = $state['name'];
+            if (!in_array($state['id'], $states)) {
+                $states[] = $state['id'];
             }
         }
         
@@ -89,7 +92,7 @@ class Config
                 continue;
             }
             foreach ($state['ways'] as $transition) {
-                if (!in_array($transition['then'], $state_names)) {
+                if (!in_array($transition['then'], $states)) {
                     throw new BadConfig("State leads to unknown state: " . $transition['then']);
                 }
             }

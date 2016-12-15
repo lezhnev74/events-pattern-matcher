@@ -9,22 +9,25 @@ class PatternDataProvider
     {
         $pattern_config = [
             [
+                "id"   => 1,
                 "name" => "login",
                 "ways" => [
                     [
-                        "then" => "search",
+                        "then" => 2,
                     ],
                 ],
             ],
             [
+                "id"   => 2,
                 "name" => "search",
                 "ways" => [
                     [
-                        "then" => "checkout",
+                        "then" => 3,
                     ],
                 ],
             ],
             [
+                "id"   => 3,
                 "name" => "checkout",
             ],
         ];
@@ -49,22 +52,25 @@ class PatternDataProvider
     {
         $pattern_config = [
             [
+                "id"   => 1,
                 "name" => "login",
                 "ways" => [
                     [
-                        "then" => "search",
+                        "then" => 2,
                     ],
                 ],
             ],
             [
+                "id"   => 2,
                 "name" => "search",
                 "ways" => [
                     [
-                        "then" => "checkout",
+                        "then" => 3,
                     ],
                 ],
             ],
             [
+                "id"   => 3,
                 "name" => "checkout",
             ],
         ];
@@ -88,36 +94,40 @@ class PatternDataProvider
     {
         $pattern_config = [
             [
+                "id"   => 1,
                 "name" => "login",
                 "ways" => [
                     [
-                        "then" => "search",
+                        "then" => 2,
                     ],
                     [
-                        "then" => "product_details",
+                        "then" => 3,
                     ],
                 ],
             ],
             [
+                "id"   => 2,
                 "name" => "search",
                 "ways" => [
                     [
-                        "then" => "checkout",
+                        "then" => 4,
                     ],
                     [
-                        "then" => "product_details",
+                        "then" => 3,
                     ],
                 ],
             ],
             [
+                "id"   => 3,
                 "name" => "product_details",
                 "ways" => [
                     [
-                        "then" => "checkout",
+                        "then" => 4,
                     ],
                 ],
             ],
             [
+                "id"   => 4,
                 "name" => "checkout",
             ],
         ];
@@ -142,34 +152,38 @@ class PatternDataProvider
     {
         $pattern_config = [
             [
+                "id"   => 1,
                 "name" => "login",
                 "ways" => [
                     [
-                        "then" => "search",
+                        "then" => 2,
                     ],
                 ],
             ],
             // search and results are in circle
             [
+                "id"   => 2,
                 "name" => "search",
                 "ways" => [
                     [
-                        "then" => "checkout",
+                        "then" => 4,
                     ],
                     [
-                        "then" => "results",
+                        "then" => 3,
                     ],
                 ],
             ],
             [
+                "id"   => 3,
                 "name" => "results",
                 "ways" => [
                     [
-                        "then" => "search",
+                        "then" => 2,
                     ],
                 ],
             ],
             [
+                "id"   => 4,
                 "name" => "checkout",
             ],
         ];

@@ -48,7 +48,7 @@ class Pattern extends Graph
         // Make all vertexes
         //
         foreach ($this->config->getConfig() as $item) {
-            $vertex = $this->createVertex();
+            $vertex = $this->createVertex($item['id']);
             $this->setEventNameOfVertex($vertex, $item['name']);
         }
         
@@ -58,14 +58,14 @@ class Pattern extends Graph
         foreach ($this->config->getConfig() as $item) {
             
             $vertex = $this->getVertices()->getVertexMatch(function (Vertex $vertex) use ($item) {
-                return $this->getEventNameOfVertex($vertex) == $item['name'];
+                return $vertex->getId() == $item['id'];
             });
             
             if (isset($item['ways'])) {
                 foreach ($item['ways'] as $way) {
                     // find existing vertex by it's event name
                     $target_vertex = $this->getVertices()->getVertexMatch(function (Vertex $vertex) use ($way) {
-                        return $this->getEventNameOfVertex($vertex) == $way['then'];
+                        return $vertex->getId() == $way['then'];
                     });
                     // attach a directed edge between them
                     $vertex->createEdgeTo($target_vertex);
@@ -224,6 +224,10 @@ class Pattern extends Graph
     {
         $vertex->setAttribute('event_name', $name);
     }
+    
+    //
+    // Vertex checkers
+    //
     
     public function getVertexById($id)
     {

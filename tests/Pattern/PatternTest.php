@@ -37,9 +37,11 @@ class PatternTest extends \PHPUnit_Framework_TestCase
         $this->expectException(BadPattern::class);
         $pattern_config = [
             [
+                "id"   => 1,
                 "name" => "login",
             ],
             [
+                "id"   => 2,
                 "name" => "checkout",
             ],
         ];
@@ -52,26 +54,29 @@ class PatternTest extends \PHPUnit_Framework_TestCase
     {
         $pattern_config = [
             [
+                "id"   => 1,
                 "name" => "login",
                 "ways" => [
                     [
-                        "then" => "search",
+                        "then" => 2,
                     ],
                 ],
             ],
             [
+                "id"   => 2,
                 "name" => "search",
                 "ways" => [
                     [
-                        "then" => "search",
+                        "then" => 2,
                     ],
                     [
-                        "then" => "checkout",
+                        "then" => 3,
                     ],
                 ],
             
             ],
             [
+                "id"   => 3,
                 "name" => "checkout",
             ],
         ];

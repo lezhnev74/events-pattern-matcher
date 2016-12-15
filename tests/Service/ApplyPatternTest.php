@@ -78,26 +78,29 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
         
         $pattern_config = [
             [
+                "id"   => 1,
                 "name" => "login",
                 "ways" => [
                     [
-                        "then" => "search",
+                        "then" => 2,
                     ],
                 ],
             ],
             [
+                "id"   => 2,
                 "name" => "search",
                 "ways" => [
                     [
-                        "then" => "checkout",
+                        "then" => 3,
                     ],
                     [
-                        "then" => "search",
+                        "then" => 2,
                     ],
                 ],
             
             ],
             [
+                "id"   => 3,
                 "name" => "checkout",
             ],
         ];
@@ -131,7 +134,6 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
         
         // Make sure Report tells me what pattern's vertexes was found in sequence
         $this->assertEquals(3, count($report->getMatchedEvents()));
-        var_dump($report->getMatchedEvents());
         
         
     }

@@ -22,6 +22,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     [
+                        "id"   => "L1",
                         "name" => "login",
                         "ways" => [
                             [
@@ -35,14 +36,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     [
+                        "id"   => "L1",
                         "nameWRONG" => "login",
-                        "ways"  => [
+                        "ways"      => [
                             [
-                                "then" => "search",
+                                "then" => "S1",
                             ],
                         ],
                     ],
                     [
+                        "id"   => "S1",
                         "name" => "search",
                     ],
                 ],
@@ -51,14 +54,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     [
+                        "id"   => "L1",
                         "name" => "login",
-                        "ways"  => [
+                        "ways" => [
                             [
                                 "thenWrong" => "search",
                             ],
                         ],
                     ],
                     [
+                        "id"   => "S1",
                         "name" => "search",
                     ],
                 ],

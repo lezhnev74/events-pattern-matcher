@@ -12,7 +12,7 @@ class Report
     
     public function __construct(bool $result, array $matchedEvents = [])
     {
-        $this->result          = $result;
+        $this->result        = $result;
         $this->matchedEvents = $matchedEvents;
     }
     
@@ -29,6 +29,18 @@ class Report
     function getMatchedEvents(): array
     {
         return $this->matchedEvents;
+    }
+    
+    /**
+     *  Get all mathced events for given pattern's vertex ID
+     */
+    function getMatchedEventsForVertex(string $vertex_id): array
+    {
+        if (isset($this->getMatchedEvents()[$vertex_id])) {
+            return $this->getMatchedEvents()[$vertex_id];
+        }
+        
+        return [];
     }
     
 }
