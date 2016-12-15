@@ -9,12 +9,25 @@ class Report
 {
     private $result;
     private $matchedEvents = [];
+    private $sequence_id;
     
-    public function __construct(bool $result, array $matchedEvents = [])
+    public function __construct(string $sequence_id, bool $result, array $matchedEvents = [])
     {
         $this->result        = $result;
         $this->matchedEvents = $matchedEvents;
+        $this->sequence_id   = $sequence_id;
+        
+        $this->validateMatchedEvents();
     }
+    
+    /**
+     * @return string
+     */
+    public function getSequenceId()
+    {
+        return $this->sequence_id;
+    }
+    
     
     /**
      * @return boolean
@@ -43,4 +56,20 @@ class Report
         return [];
     }
     
+    
+    /**
+     * Make sure events has desired format
+     */
+    private function validateMatchedEvents()
+    {
+        $pattern = [
+            ":integer *" => [
+                "*" => [
+                    "event_name" => ":string min(1)",
+                ],
+            ],
+        ];
+        
+        \matchmaker\catches($this->matchedEvents, $pattern);
+    }
 }

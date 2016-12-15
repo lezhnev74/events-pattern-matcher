@@ -97,7 +97,7 @@ class ApplyPattern implements Service
         return $sm;
     }
     
-    function execute(): Report
+    function execute(): ApplyPatternResponse
     {
         $matched       = false;
         $pattern       = $this->request->getPattern();
@@ -121,9 +121,9 @@ class ApplyPattern implements Service
             }
         }
         
-        $report = new Report($matched, $this->matched_events);
+        $report = new Report($sequence->getId(), $matched, $this->matched_events);
         
-        return $report;
+        return new ApplyPatternResponse($report);
     }
     
 }

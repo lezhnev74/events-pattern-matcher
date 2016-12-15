@@ -14,23 +14,35 @@ class Sequence
      * @var iterable
      */
     private $events;
+    /** @var  string ID for given sequence */
+    private $id;
     
     /**
      * Sequence constructor.
      *
      * @param $events
      */
-    public function __construct(iterable $events)
+    public function __construct(iterable $events, string $id)
     {
         $this->events = $events;
+        $this->id     = $id;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
     }
     
     /**
      * Make events from given array of JSON data
      *
-     * @param array $events
+     * @param array  $events
+     * @param string $id of the sequence (user_id, or session_id or whatever)
      */
-    static function fromArray(array $events)
+    static function fromArray(array $events, string $id)
     {
         $event_objects = [];
         
@@ -38,7 +50,7 @@ class Sequence
             $event_objects[] = Event::fromArray($event);
         }
         
-        return new self($event_objects);
+        return new self($event_objects, $id);
     }
     
     function getEvents(): iterable

@@ -84,9 +84,9 @@ class PatternTest extends \PHPUnit_Framework_TestCase
         $config  = new Config($pattern_config);
         $pattern = new Pattern($config);
         
-        foreach ($pattern->getVertices() as $vertex) {
-            echo $pattern->getEventNameOfVertex($vertex) . " has edges_out: " . count($vertex->getEdgesOut()) . "\n";
-        }
+//        foreach ($pattern->getVertices() as $vertex) {
+//            echo $pattern->getEventNameOfVertex($vertex) . " has edges_out: " . count($vertex->getEdgesOut()) . "\n";
+//        }
         
 //        $graph  = new Graph();
 //        $vertex = $graph->createVertex();

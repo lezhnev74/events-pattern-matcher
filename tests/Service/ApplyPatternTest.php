@@ -21,15 +21,16 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
         
         $config   = new Config($pattern_config);
         $pattern  = new Pattern($config);
-        $sequence = Sequence::fromArray($events);
+        $sequence = Sequence::fromArray($events, "SID1");
         
         // call a service
         $request = new ApplyPatternRequest($pattern, $sequence);
         $service = new ApplyPattern($request);
-        $report  = $service->execute();
+        $report  = $service->execute()->getReport();
         
         // make sure we get to the final point
         $this->assertTrue($report->isMatched());
+        $this->assertEquals($sequence->getId(), $report->getSequenceId());
         
     }
     
@@ -41,12 +42,12 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
         
         $config   = new Config($pattern_config);
         $pattern  = new Pattern($config);
-        $sequence = Sequence::fromArray($events);
+        $sequence = Sequence::fromArray($events, "SID1");
         
         // call a service
         $request = new ApplyPatternRequest($pattern, $sequence);
         $service = new ApplyPattern($request);
-        $report  = $service->execute();
+        $report  = $service->execute()->getReport();
         
         // make sure we get to the final point
         $this->assertFalse($report->isMatched());
@@ -61,12 +62,12 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
         
         $config   = new Config($pattern_config);
         $pattern  = new Pattern($config);
-        $sequence = Sequence::fromArray($events);
+        $sequence = Sequence::fromArray($events, "SID1");
         
         // call a service
         $request = new ApplyPatternRequest($pattern, $sequence);
         $service = new ApplyPattern($request);
-        $report  = $service->execute();
+        $report  = $service->execute()->getReport();
         
         // make sure we get to the final point
         $this->assertTrue($report->isMatched());
@@ -122,12 +123,12 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
         
         $config   = new Config($pattern_config);
         $pattern  = new Pattern($config);
-        $sequence = Sequence::fromArray($events);
+        $sequence = Sequence::fromArray($events, "SID1");
         
         // call a service
         $request = new ApplyPatternRequest($pattern, $sequence);
         $service = new ApplyPattern($request);
-        $report  = $service->execute();
+        $report  = $service->execute()->getReport();
         
         // make sure we get to the final point
         $this->assertTrue($report->isMatched());
@@ -197,12 +198,12 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
         
         $config   = new Config($pattern_config);
         $pattern  = new Pattern($config);
-        $sequence = Sequence::fromArray($events);
+        $sequence = Sequence::fromArray($events, "SID1");
         
         // call a service
         $request = new ApplyPatternRequest($pattern, $sequence);
         $service = new ApplyPattern($request);
-        $report  = $service->execute();
+        $report  = $service->execute()->getReport();
         
         // make sure we get to the final point
         $this->assertTrue($report->isMatched());
