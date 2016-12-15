@@ -210,12 +210,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lezhnev74/light-fsm.git",
-                "reference": "13bafd3eb379c96c4e075f2ceef90a1b0c6db949"
+                "reference": "93f81ac05d6fdb988a6be397d8456f944443b4d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lezhnev74/light-fsm/zipball/13bafd3eb379c96c4e075f2ceef90a1b0c6db949",
-                "reference": "13bafd3eb379c96c4e075f2ceef90a1b0c6db949",
+                "url": "https://api.github.com/repos/lezhnev74/light-fsm/zipball/93f81ac05d6fdb988a6be397d8456f944443b4d5",
+                "reference": "93f81ac05d6fdb988a6be397d8456f944443b4d5",
                 "shasum": ""
             },
             "require-dev": {
@@ -252,7 +252,7 @@
             "support": {
                 "source": "https://github.com/lezhnev74/light-fsm/tree/master"
             },
-            "time": "2016-12-15 09:19:55"
+            "time": "2016-12-15 17:35:52"
         }
     ],
     "packages-dev": [

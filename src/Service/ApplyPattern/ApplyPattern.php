@@ -56,7 +56,7 @@ class ApplyPattern implements Service
         foreach ($pattern->getVertices() as $vertex) {
             $state = $sm->configure($vertex->getId());
             
-            $state->onEntry(function ($is_substate, $data, $current_state) use ($pattern) {
+            $state->onEntry(function ($is_substate, $data, $current_state, $prev_state) use ($pattern) {
                 //
                 // This callback is executed on each state entry. Since states are from Pattern graph
                 // I want to track each state entry to know what pattern's vertexes were matched against sequence of events
@@ -77,9 +77,9 @@ class ApplyPattern implements Service
                 // Put event name to storage
                 //
                 $this->matched_events[$current_state][] = [
-                    'event_name' => $event_name,
+                    'event_name'     => $event_name,
+                    'previous_state' => $prev_state,
                 ];
-                
             });
             
             

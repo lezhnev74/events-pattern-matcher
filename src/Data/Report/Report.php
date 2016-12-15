@@ -45,15 +45,26 @@ class Report
     }
     
     /**
-     *  Get all mathced events for given pattern's vertex ID
+     *  Get all matched events for given pattern's vertex ID
      */
-    function getMatchedEventsForVertex(string $vertex_id): array
+    function getMatchedEventsForVertex(int $vertex_id): array
     {
         if (isset($this->getMatchedEvents()[$vertex_id])) {
             return $this->getMatchedEvents()[$vertex_id];
         }
         
+        // if nothing found return empty array
         return [];
+    }
+    
+    /**
+     *  Get all matched events for given pattern's vertex ID which was transitioned from given Vertex id
+     */
+    function getMatchedEventsForVertexTransitionedFromVertex(int $vertex_id, int $from_vertex_id): array
+    {
+        return array_filter($this->getMatchedEventsForVertex($vertex_id), function ($item) use ($from_vertex_id) {
+            return $item['previous_state'] == $from_vertex_id;
+        });
     }
     
     
@@ -65,11 +76,11 @@ class Report
         $pattern = [
             ":integer *" => [
                 "*" => [
-                    "event_name" => ":string min(1)",
+                    "event_name"     => ":string min(1)",
+                    "previous_state" => ":integer", // pattern graph vertex ID
                 ],
             ],
         ];
-        
         \matchmaker\catches($this->matchedEvents, $pattern);
     }
 }

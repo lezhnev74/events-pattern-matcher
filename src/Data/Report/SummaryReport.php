@@ -66,4 +66,38 @@ class SummaryReport
         return count($this->matched_reports);
     }
     
+    /**
+     * Get total number of times event was occurred on the pattern graph
+     *
+     * @param int $vertex_id
+     *
+     * @return int
+     */
+    public function patternVertexMatchedCount(int $vertex_id): int
+    {
+        $count = 0;
+        
+        foreach ($this->matched_reports as $report) {
+            $count += count($report->getMatchedEventsForVertex($vertex_id));
+        }
+        
+        return $count;
+    }
+    
+    /**
+     * @param int $vertex_id
+     * @param int $from_vertex_id
+     *
+     * @return int how many transitions were detected from given vertex
+     */
+    public function patternVertexMatchedTransitionsFromCount(int $vertex_id, int $from_vertex_id): int
+    {
+        $count = 0;
+        
+        foreach ($this->matched_reports as $report) {
+            $count += count($report->getMatchedEventsForVertexTransitionedFromVertex($vertex_id, $from_vertex_id));
+        }
+        
+        return $count;
+    }
 }

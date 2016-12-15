@@ -24,6 +24,7 @@ class ApplyToSequencesTest extends \PHPUnit_Framework_TestCase
                 "name" => "login",
                 "ways" => [
                     ["then" => 2],
+                    ["then" => 3],
                 ],
             ],
             [
@@ -31,11 +32,18 @@ class ApplyToSequencesTest extends \PHPUnit_Framework_TestCase
                 "name" => "search",
                 "ways" => [
                     ["then" => 2],
-                    ["then" => 3],
+                    ["then" => 4],
                 ],
             ],
             [
                 "id"   => 3,
+                "name" => "blog",
+                "ways" => [
+                    ["then" => 4],
+                ],
+            ],
+            [
+                "id"   => 4,
                 "name" => "checkout",
             ],
         ];
@@ -64,6 +72,7 @@ class ApplyToSequencesTest extends \PHPUnit_Framework_TestCase
                 ["name" => "C"],
                 ["name" => "login"],
                 ["name" => "C"],
+                ["name" => "blog"],
                 ["name" => "search"],
                 ["name" => "checkout"],
                 ["name" => "C"],
@@ -82,8 +91,16 @@ class ApplyToSequencesTest extends \PHPUnit_Framework_TestCase
         $service  = new ApplyToSequences($request);
         $response = $service->execute();
         
+        //
+        // Assert summary report
+        //
         $this->assertEquals(4, $response->getSummaryReport()->totalReports());
         $this->assertEquals(3, $response->getSummaryReport()->matchedReportsCount());
+        $this->assertEquals(3, $response->getSummaryReport()->patternVertexMatchedCount(1));
+        $this->assertEquals(3, $response->getSummaryReport()->patternVertexMatchedCount(2));
+        $this->assertEquals(2, $response->getSummaryReport()->patternVertexMatchedTransitionsFromCount(4,2));
+        $this->assertEquals(1, $response->getSummaryReport()->patternVertexMatchedTransitionsFromCount(4,3));
+        
         
     }
     
