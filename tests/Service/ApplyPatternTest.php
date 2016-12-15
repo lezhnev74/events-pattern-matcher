@@ -138,4 +138,79 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
         
     }
     
+    function test_service_apply_pattern_with_duplicate_events_in_pattern()
+    {
+        
+        $pattern_config = [
+            [
+                "id"   => 1,
+                "name" => "search",
+                "ways" => [
+                    [
+                        "then" => 2,
+                    ],
+                    [
+                        "then" => 4,
+                    ],
+                ],
+            ],
+            [
+                "id"   => 2,
+                "name" => "search_results",
+                "ways" => [
+                    [
+                        "then" => 3,
+                    ],
+                    [
+                        "then" => 2,
+                    ],
+                ],
+            ],
+            [
+                "id"   => 3,
+                "name" => "search",
+                "ways" => [
+                    [
+                        "then" => 2,
+                    ],
+                    [
+                        "then" => 4,
+                    ],
+                ],
+            ],
+            [
+                "id"   => 4,
+                "name" => "checkout",
+            ],
+        ];
+        
+        $events = [
+            ["name" => "login"],
+            ["name" => "C"],
+            ["name" => "search"],
+            ["name" => "search_results"],
+            ["name" => "search"],
+            ["name" => "D"],
+            ["name" => "checkout"],
+            ["name" => "C"],
+        ];
+        
+        $config   = new Config($pattern_config);
+        $pattern  = new Pattern($config);
+        $sequence = Sequence::fromArray($events);
+        
+        // call a service
+        $request = new ApplyPatternRequest($pattern, $sequence);
+        $service = new ApplyPattern($request);
+        $report  = $service->execute();
+        
+        // make sure we get to the final point
+        $this->assertTrue($report->isMatched());
+        
+        // Make sure Report tells me what pattern's vertexes was found in sequence
+        $this->assertEquals(4, count($report->getMatchedEvents()));
+        
+        
+    }
+    
 }

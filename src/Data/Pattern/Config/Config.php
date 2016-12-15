@@ -7,8 +7,6 @@ namespace Lezhnev74\EventsPatternMatcher\Data\Pattern\Config;
  * Class Config
  * Purpose is to validate that given JSON-array is a valid configuration for a Pattern
  *
- * TODO allow multiple vertexes to have the same event name (for complex patterns with many equal events)
- *
  * @package Lezhnev74\EventsPatternMatcher\Data\Pattern\Config
  */
 class Config
