@@ -3,12 +3,11 @@ namespace Lezhnev74\EventsPatternMatcher\Service\ApplyToSequences;
 
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\Pattern;
 use Lezhnev74\EventsPatternMatcher\Data\Sequence\Sequence;
+use Lezhnev74\EventsPatternMatcher\Data\Sequence\SequenceGroup;
 
 class ApplyToSequencesRequest
 {
-    /** @var  string */
-    private $sequences_name;
-    /** @var  array */
+    /** @var  SequenceGroup */
     private $sequences;
     /** @var  Pattern */
     private $pattern;
@@ -16,21 +15,13 @@ class ApplyToSequencesRequest
     /**
      * ApplyToSequencesRequest constructor.
      *
-     * @param string  $sequences_name
-     * @param array   $sequences
-     * @param Pattern $pattern
+     * @param SequenceGroup $sequences
+     * @param Pattern       $pattern
      */
-    public function __construct($sequences_name, array $sequences, Pattern $pattern)
+    public function __construct(SequenceGroup $sequences, Pattern $pattern)
     {
-        $this->sequences_name = $sequences_name;
-        $this->sequences      = $sequences;
-        $this->pattern        = $pattern;
-        
-        foreach ($sequences as $sequence) {
-            if (!is_a($sequence, Sequence::class)) {
-                throw new \InvalidArgumentException("Expected sequence object but detect one is: " . get_class($sequence));
-            }
-        }
+        $this->sequences = $sequences;
+        $this->pattern   = $pattern;
     }
     
     /**
@@ -38,7 +29,7 @@ class ApplyToSequencesRequest
      */
     public function getSequencesName(): string
     {
-        return $this->sequences_name;
+        return $this->sequences->getTitle();
     }
     
     /**
@@ -46,7 +37,7 @@ class ApplyToSequencesRequest
      */
     public function getSequences(): array
     {
-        return $this->sequences;
+        return $this->sequences->getSequences();
     }
     
     /**

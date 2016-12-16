@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7674434815cda9c5ade27628539f2863",
-    "content-hash": "9528c151b23d0f4a2eea97dac75b06a6",
+    "hash": "0124048006917d24b22f420471fbae41",
+    "content-hash": "01429d51964f7dae4857c9af4388e0f2",
     "packages": [
         {
             "name": "cdrubin/matchmaker",

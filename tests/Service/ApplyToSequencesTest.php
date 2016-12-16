@@ -8,6 +8,7 @@ use Lezhnev74\EventsPatternMatcher\Data\Pattern\BadPattern;
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\Config\Config;
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\Pattern;
 use Lezhnev74\EventsPatternMatcher\Data\Sequence\Sequence;
+use Lezhnev74\EventsPatternMatcher\Data\Sequence\SequenceGroup;
 use Lezhnev74\EventsPatternMatcher\Service\ApplyPattern\ApplyPattern;
 use Lezhnev74\EventsPatternMatcher\Service\ApplyPattern\ApplyPatternRequest;
 use Lezhnev74\EventsPatternMatcher\Service\ApplyToSequences\ApplyToSequences;
@@ -86,12 +87,11 @@ class ApplyToSequencesTest extends \PHPUnit_Framework_TestCase
         $pattern = new Pattern($config);
         
         // call a service
-        $request  = new ApplyToSequencesRequest("SE1", array_map(function ($events) {
+        $request  = new ApplyToSequencesRequest(new SequenceGroup(array_map(function ($events) {
             $s = Sequence::fromArray($events, "random_" . rand());
-            //var_dump(array_map(function ($item) { return $item->getName(); }, $s->getEvents()));
             
             return $s;
-        }, $sequences), $pattern);
+        }, $sequences), "SE1"), $pattern);
         $service  = new ApplyToSequences($request);
         $response = $service->execute();
         

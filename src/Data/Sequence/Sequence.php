@@ -5,6 +5,8 @@ namespace Lezhnev74\EventsPatternMatcher\Data\Sequence;
 
 /*
  * Contains sequence of events to validate our assumption on
+ *
+ * For example all events from the same user_id or session_id
  */
 use Lezhnev74\EventsPatternMatcher\Data\Event\Event;
 

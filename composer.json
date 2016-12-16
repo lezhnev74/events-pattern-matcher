@@ -33,5 +33,6 @@
       "Lezhnev74\\EventsPatternMatcher\\": "src/",
       "Lezhnev74\\EventsPatternMatcher\\Tests\\": "tests/"
     }
-  }
+  },
+  "minimum-stability": "stable"
 }
