@@ -52,32 +52,32 @@ class ApplyToSequencesTest extends \PHPUnit_Framework_TestCase
         $time      = Carbon::now();
         $sequences = [
             [
-                ["name" => "login", "occurred_at" => $time->addHour()],
-                ["name" => "search", "occurred_at" => $time->addHour()],
-                ["name" => "checkout", "occurred_at" => $time->addHour()],
+                ["name" => "login", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "checkout", "occurred_at" => $time->addHour()->timestamp],
             ],
             [
-                ["name" => "login", "occurred_at" => $time->addHour()],
-                ["name" => "checkout", "occurred_at" => $time->addHour()],
+                ["name" => "login", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "checkout", "occurred_at" => $time->addHour()->timestamp],
             ],
             [
-                ["name" => "login", "occurred_at" => $time->addHour()],
-                ["name" => "C", "occurred_at" => $time->addHour()],
-                ["name" => "search", "occurred_at" => $time->addHour()],
-                ["name" => "search_results", "occurred_at" => $time->addHour()],
-                ["name" => "search", "occurred_at" => $time->addHour()],
-                ["name" => "D", "occurred_at" => $time->addHour()],
-                ["name" => "checkout", "occurred_at" => $time->addHour()],
-                ["name" => "C", "occurred_at" => $time->addHour()],
+                ["name" => "login", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "search_results", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "D", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "checkout", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
             ],
             [
-                ["name" => "C", "occurred_at" => $time->addHour()],
-                ["name" => "login", "occurred_at" => $time->addHour()],
-                ["name" => "C", "occurred_at" => $time->addHour()],
-                ["name" => "blog", "occurred_at" => $time->addHour()],
-                ["name" => "search", "occurred_at" => $time->addHour()],
-                ["name" => "checkout", "occurred_at" => $time->addHour()],
-                ["name" => "C", "occurred_at" => $time->addHour()],
+                ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "login", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "blog", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "checkout", "occurred_at" => $time->addHour()->timestamp],
+                ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
             ],
         ];
         
@@ -85,10 +85,12 @@ class ApplyToSequencesTest extends \PHPUnit_Framework_TestCase
         $config  = new Config($pattern_config);
         $pattern = new Pattern($config);
         
-        
         // call a service
         $request  = new ApplyToSequencesRequest("SE1", array_map(function ($events) {
-            return Sequence::fromArray($events, "random_" . rand());
+            $s = Sequence::fromArray($events, "random_" . rand());
+            //var_dump(array_map(function ($item) { return $item->getName(); }, $s->getEvents()));
+            
+            return $s;
         }, $sequences), $pattern);
         $service  = new ApplyToSequences($request);
         $response = $service->execute();

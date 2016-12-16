@@ -24,10 +24,11 @@ class Sequence
      */
     public function __construct(iterable $events, string $id)
     {
-        $this->events = usort($events, function ($a, $b) {
-            return strtotime($a['occured_at']) > strtotime($b['occured_at']);
+        $this->events = $events;
+        usort($this->events, function ($a, $b) {
+            return $a->getOccuredAt() > $b->getOccuredAt();
         });
-        $this->id     = $id;
+        $this->id = $id;
     }
     
     /**

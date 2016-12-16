@@ -109,18 +109,18 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
         
         $time   = Carbon::now();
         $events = [
-            ["name" => "A", "occurred_at" => $time->addHour()],
-            ["name" => "B", "occurred_at" => $time->addHour()],
-            ["name" => "login", "occurred_at" => $time->addHour()],
-            ["name" => "C", "occurred_at" => $time->addHour()],
-            ["name" => "search", "occurred_at" => $time->addHour()],
-            ["name" => "search", "occurred_at" => $time->addHour()],
-            ["name" => "login", "occurred_at" => $time->addHour()],
-            ["name" => "D", "occurred_at" => $time->addHour()],
-            ["name" => "D", "occurred_at" => $time->addHour()],
-            ["name" => "checkout", "occurred_at" => $time->addHour()],
-            ["name" => "E", "occurred_at" => $time->addHour()],
-            ["name" => "C", "occurred_at" => $time->addHour()],
+            ["name" => "A", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "B", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "login", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "login", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "D", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "D", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "checkout", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "E", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
         ];
         
         $config   = new Config($pattern_config);
@@ -189,14 +189,14 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
         
         $time   = Carbon::now();
         $events = [
-            ["name" => "login", "occurred_at" => $time->addHour()],
-            ["name" => "C", "occurred_at" => $time->addHour()],
-            ["name" => "search", "occurred_at" => $time->addHour()],
-            ["name" => "search_results", "occurred_at" => $time->addHour()],
-            ["name" => "search", "occurred_at" => $time->addHour()],
-            ["name" => "D", "occurred_at" => $time->addHour()],
-            ["name" => "checkout", "occurred_at" => $time->addHour()],
-            ["name" => "C", "occurred_at" => $time->addHour()],
+            ["name" => "login", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "search_results", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "D", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "checkout", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
         ];
         
         $config   = new Config($pattern_config);

@@ -34,18 +34,18 @@ class PatternDataProvider
             ],
         ];
         
-        $now    = Carbon::now();
+        $time   = Carbon::now();
         $events = [
-            ["name" => "A", "occurred_at" => $now],
-            ["name" => "B", "occurred_at" => $now->addHour()],
-            ["name" => "login", "occurred_at" => $now->addHour()],
-            ["name" => "C", "occurred_at" => $now->addHour()],
-            ["name" => "search", "occurred_at" => $now->addHour()],
-            ["name" => "D", "occurred_at" => $now->addHour()],
-            ["name" => "D", "occurred_at" => $now->addHour()],
-            ["name" => "checkout", "occurred_at" => $now->addHour()],
-            ["name" => "E", "occurred_at" => $now->addHour()],
-            ["name" => "C", "occurred_at" => $now->addHour()],
+            ["name" => "A", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "B", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "login", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "D", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "D", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "checkout", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "E", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
         ];
         
         return [$pattern_config, $events];
@@ -77,18 +77,18 @@ class PatternDataProvider
                 "name" => "checkout",
             ],
         ];
-        
-        $now    = Carbon::now();
+    
+        $time   = Carbon::now();
         $events = [
-            ["name" => "A", "occurred_at" => $now->addHour()],
-            ["name" => "B", "occurred_at" => $now->addHour()],
-            ["name" => "login", "occurred_at" => $now->addHour()],
-            ["name" => "C", "occurred_at" => $now->addHour()],
-            ["name" => "search", "occurred_at" => $now->addHour()],
-            ["name" => "D", "occurred_at" => $now->addHour()],
-            ["name" => "D", "occurred_at" => $now->addHour()],
-            ["name" => "E", "occurred_at" => $now->addHour()],
-            ["name" => "C", "occurred_at" => $now->addHour()],
+            ["name" => "A", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "B", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "login", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "D", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "D", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "E", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
         ];
         
         return [$pattern_config, $events];
@@ -138,16 +138,16 @@ class PatternDataProvider
         
         $time   = Carbon::now();
         $events = [
-            ["name" => "A", "occurred_at" => $time->addHour()],
-            ["name" => "B", "occurred_at" => $time->addHour()],
-            ["name" => "login", "occurred_at" => $time->addHour()],
-            ["name" => "C", "occurred_at" => $time->addHour()],
-            ["name" => "search", "occurred_at" => $time->addHour()],
-            ["name" => "D", "occurred_at" => $time->addHour()],
-            ["name" => "D", "occurred_at" => $time->addHour()],
-            ["name" => "checkout", "occurred_at" => $time->addHour()],
-            ["name" => "E", "occurred_at" => $time->addHour()],
-            ["name" => "C", "occurred_at" => $time->addHour()],
+            ["name" => "A", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "B", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "login", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "D", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "D", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "checkout", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "E", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
         ];
         
         return [$pattern_config, $events];
@@ -195,18 +195,18 @@ class PatternDataProvider
         
         $time   = Carbon::now();
         $events = [
-            ["name" => "A", "occurred_at" => $time->addHour()],
-            ["name" => "B", "occurred_at" => $time->addHour()],
-            ["name" => "login", "occurred_at" => $time->addHour()],
-            ["name" => "C", "occurred_at" => $time->addHour()],
-            ["name" => "search", "occurred_at" => $time->addHour()],
-            ["name" => "results", "occurred_at" => $time->addHour()],
-            ["name" => "search", "occurred_at" => $time->addHour()],
-            ["name" => "results", "occurred_at" => $time->addHour()],
-            ["name" => "search", "occurred_at" => $time->addHour()],
-            ["name" => "checkout", "occurred_at" => $time->addHour()],
-            ["name" => "E", "occurred_at" => $time->addHour()],
-            ["name" => "C", "occurred_at" => $time->addHour()],
+            ["name" => "A", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "B", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "login", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "results", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "results", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "search", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "checkout", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "E", "occurred_at" => $time->addHour()->timestamp],
+            ["name" => "C", "occurred_at" => $time->addHour()->timestamp],
         ];
         
         return [$pattern_config, $events];
