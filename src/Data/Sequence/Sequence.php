@@ -24,7 +24,9 @@ class Sequence
      */
     public function __construct(iterable $events, string $id)
     {
-        $this->events = $events;
+        $this->events = usort($events, function ($a, $b) {
+            return strtotime($a['occured_at']) > strtotime($b['occured_at']);
+        });
         $this->id     = $id;
     }
     

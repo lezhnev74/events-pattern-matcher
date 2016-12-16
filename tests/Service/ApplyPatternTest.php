@@ -2,6 +2,7 @@
 
 namespace Lezhnev74\EventsPatternMatcher\Tests\Service;
 
+use Carbon\Carbon;
 use Graphp\GraphViz\GraphViz;
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\BadPattern;
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\Config\Config;
@@ -106,19 +107,20 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
             ],
         ];
         
+        $time   = Carbon::now();
         $events = [
-            ["name" => "A"],
-            ["name" => "B"],
-            ["name" => "login"],
-            ["name" => "C"],
-            ["name" => "search"],
-            ["name" => "search"],
-            ["name" => "login"],
-            ["name" => "D"],
-            ["name" => "D"],
-            ["name" => "checkout"],
-            ["name" => "E"],
-            ["name" => "C"],
+            ["name" => "A", "occurred_at" => $time->addHour()],
+            ["name" => "B", "occurred_at" => $time->addHour()],
+            ["name" => "login", "occurred_at" => $time->addHour()],
+            ["name" => "C", "occurred_at" => $time->addHour()],
+            ["name" => "search", "occurred_at" => $time->addHour()],
+            ["name" => "search", "occurred_at" => $time->addHour()],
+            ["name" => "login", "occurred_at" => $time->addHour()],
+            ["name" => "D", "occurred_at" => $time->addHour()],
+            ["name" => "D", "occurred_at" => $time->addHour()],
+            ["name" => "checkout", "occurred_at" => $time->addHour()],
+            ["name" => "E", "occurred_at" => $time->addHour()],
+            ["name" => "C", "occurred_at" => $time->addHour()],
         ];
         
         $config   = new Config($pattern_config);
@@ -185,15 +187,16 @@ class ApplyPatternTest extends \PHPUnit_Framework_TestCase
             ],
         ];
         
+        $time   = Carbon::now();
         $events = [
-            ["name" => "login"],
-            ["name" => "C"],
-            ["name" => "search"],
-            ["name" => "search_results"],
-            ["name" => "search"],
-            ["name" => "D"],
-            ["name" => "checkout"],
-            ["name" => "C"],
+            ["name" => "login", "occurred_at" => $time->addHour()],
+            ["name" => "C", "occurred_at" => $time->addHour()],
+            ["name" => "search", "occurred_at" => $time->addHour()],
+            ["name" => "search_results", "occurred_at" => $time->addHour()],
+            ["name" => "search", "occurred_at" => $time->addHour()],
+            ["name" => "D", "occurred_at" => $time->addHour()],
+            ["name" => "checkout", "occurred_at" => $time->addHour()],
+            ["name" => "C", "occurred_at" => $time->addHour()],
         ];
         
         $config   = new Config($pattern_config);

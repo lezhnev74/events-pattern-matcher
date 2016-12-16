@@ -24,7 +24,8 @@ class Event
         // All the config is described with this pattern
         //
         $pattern = [
-            "name" => ":string min(1)",
+            "name"        => ":string min(1)",
+            "occurred_at" => ":date",
         ];
         
         $valid = \matchmaker\catches($event, $pattern);

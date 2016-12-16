@@ -2,6 +2,7 @@
 
 namespace Lezhnev74\EventsPatternMatcher\Tests\Service;
 
+use Carbon\Carbon;
 use Graphp\GraphViz\GraphViz;
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\BadPattern;
 use Lezhnev74\EventsPatternMatcher\Data\Pattern\Config\Config;
@@ -48,34 +49,35 @@ class ApplyToSequencesTest extends \PHPUnit_Framework_TestCase
             ],
         ];
         
+        $time      = Carbon::now();
         $sequences = [
             [
-                ["name" => "login"],
-                ["name" => "search"],
-                ["name" => "checkout"],
+                ["name" => "login", "occurred_at" => $time->addHour()],
+                ["name" => "search", "occurred_at" => $time->addHour()],
+                ["name" => "checkout", "occurred_at" => $time->addHour()],
             ],
             [
-                ["name" => "login"],
-                ["name" => "checkout"],
+                ["name" => "login", "occurred_at" => $time->addHour()],
+                ["name" => "checkout", "occurred_at" => $time->addHour()],
             ],
             [
-                ["name" => "login"],
-                ["name" => "C"],
-                ["name" => "search"],
-                ["name" => "search_results"],
-                ["name" => "search"],
-                ["name" => "D"],
-                ["name" => "checkout"],
-                ["name" => "C"],
+                ["name" => "login", "occurred_at" => $time->addHour()],
+                ["name" => "C", "occurred_at" => $time->addHour()],
+                ["name" => "search", "occurred_at" => $time->addHour()],
+                ["name" => "search_results", "occurred_at" => $time->addHour()],
+                ["name" => "search", "occurred_at" => $time->addHour()],
+                ["name" => "D", "occurred_at" => $time->addHour()],
+                ["name" => "checkout", "occurred_at" => $time->addHour()],
+                ["name" => "C", "occurred_at" => $time->addHour()],
             ],
             [
-                ["name" => "C"],
-                ["name" => "login"],
-                ["name" => "C"],
-                ["name" => "blog"],
-                ["name" => "search"],
-                ["name" => "checkout"],
-                ["name" => "C"],
+                ["name" => "C", "occurred_at" => $time->addHour()],
+                ["name" => "login", "occurred_at" => $time->addHour()],
+                ["name" => "C", "occurred_at" => $time->addHour()],
+                ["name" => "blog", "occurred_at" => $time->addHour()],
+                ["name" => "search", "occurred_at" => $time->addHour()],
+                ["name" => "checkout", "occurred_at" => $time->addHour()],
+                ["name" => "C", "occurred_at" => $time->addHour()],
             ],
         ];
         
@@ -98,8 +100,8 @@ class ApplyToSequencesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, $response->getSummaryReport()->matchedReportsCount());
         $this->assertEquals(3, $response->getSummaryReport()->patternVertexMatchedCount(1));
         $this->assertEquals(3, $response->getSummaryReport()->patternVertexMatchedCount(2));
-        $this->assertEquals(2, $response->getSummaryReport()->patternVertexMatchedTransitionsFromCount(4,2));
-        $this->assertEquals(1, $response->getSummaryReport()->patternVertexMatchedTransitionsFromCount(4,3));
+        $this->assertEquals(2, $response->getSummaryReport()->patternVertexMatchedTransitionsFromCount(4, 2));
+        $this->assertEquals(1, $response->getSummaryReport()->patternVertexMatchedTransitionsFromCount(4, 3));
         
         
     }
