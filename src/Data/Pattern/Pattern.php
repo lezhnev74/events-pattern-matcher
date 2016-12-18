@@ -1,6 +1,7 @@
 <?php
 namespace Lezhnev74\EventsPatternMatcher\Data\Pattern;
 
+use Fhaculty\Graph\Exception\OutOfBoundsException;
 use Fhaculty\Graph\Graph;
 use Fhaculty\Graph\Vertex;
 use Graphp\Algorithms\ConnectedComponents;
@@ -100,6 +101,18 @@ class Pattern extends Graph
         $final_vertex = $this->getFinalVertex();
         
         //
+        // Dump all vertices (for debugging purposes)
+        //
+//        foreach ($this->getVertices() as $vertex) {
+//            $message = "\nvertex " . $vertex->getId() . " has edges to ";
+//            foreach($vertex->getEdgesOut()->getEdgesDistinct() as $edge) {
+//                $message .= $edge->getVertexEnd()->getId().",";
+//            }
+//            var_dump($message);
+//        }
+        
+        
+        //
         // Make sure that each vertex is reachable from the input point
         //
         $alg = new BreadthFirst($entry_vertex);
@@ -114,6 +127,7 @@ class Pattern extends Graph
             }
         }
         
+        
         //
         // Make sure that each final point is reachable from any vertex
         //
@@ -123,8 +137,12 @@ class Pattern extends Graph
                 continue;
             }
             $alg = new BreadthFirst($vertex);
-            if (!$alg->getDistance($final_vertex)) {
-                throw new BadPattern("Event[" . $this->getEventNameOfVertex($vertex) . "] has no path to Final point");
+            try {
+                if (!$alg->getDistance($final_vertex)) {
+                    throw new \Exception();
+                }
+            } catch (\Exception $e) {
+                throw new BadPattern("Event[" . $this->getEventNameOfVertex($vertex) . "] has no path to Final point. Message:" . $e->getMessage());
             }
         }
     }

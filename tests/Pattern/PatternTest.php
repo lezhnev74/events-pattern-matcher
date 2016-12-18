@@ -106,4 +106,33 @@ class PatternTest extends \PHPUnit_Framework_TestCase
         
         
     }
+    
+    
+    public function test_config_is_correct() {
+        $pattern_config = [
+            [
+                "id"   => 1,
+                "name" => "login",
+                "ways" => [
+                    ["then" => 2],
+                    ["then" => 3],
+                ],
+            ],
+            [
+                "id"   => 2,
+                "name" => "search",
+                "ways" => [
+                    ["then" => 2],
+                    ["then" => 3],
+                ],
+            ],
+            [
+                "id"   => 3,
+                "name" => "checkout",
+            ],
+        ];
+        $config         = new Config($pattern_config);
+        $pattern        = new Pattern($config);
+        
+    }
 }
