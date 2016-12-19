@@ -256,4 +256,19 @@ class Pattern extends Graph
     {
         return !(bool)$vertex->getEdgesOut()->count();
     }
+    
+    public function isEntryVertex(Vertex $vertex)
+    {
+        return (bool)$vertex->getAttribute('__begin__', false);
+    }
+    
+    /**
+     * Get all vertices except the entry one (which I added myself for validating the graph)
+     */
+    public function getMeaningfulVertices()
+    {
+        return $this->getVertices()->getVerticesMatch(function (Vertex $vertex) {
+            return !$this->isEntryVertex($vertex);
+        });
+    }
 }
