@@ -28,7 +28,7 @@ class Sequence
     {
         $this->events = $events;
         usort($this->events, function ($a, $b) {
-            return $a->getOccuredAt() > $b->getOccuredAt();
+            return $a->getOccurredAt() > $b->getOccurredAt();
         });
         $this->id = $id;
     }

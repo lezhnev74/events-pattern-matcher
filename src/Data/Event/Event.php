@@ -8,13 +8,13 @@ class Event
 {
     private $name;
     /** @var Carbon */
-    private $occured_at;
+    private $occurred_at;
     
     public function __construct($name, string $occured_at)
     {
         $this->name = $name;
         try {
-            $this->occured_at = is_numeric($occured_at) ? Carbon::createFromTimestamp($occured_at) : Carbon::parse($occured_at);
+            $this->occurred_at = is_numeric($occured_at) ? Carbon::createFromTimestamp($occured_at) : Carbon::parse($occured_at);
         } catch (\Exception $e) {
             throw new BadEvent("Invalid occured_at input for event: " . $occured_at . ". Message:" . $e->getMessage());
         }
@@ -28,9 +28,9 @@ class Event
     /**
      * @return Carbon
      */
-    public function getOccuredAt(): Carbon
+    public function getOccurredAt(): Carbon
     {
-        return $this->occured_at;
+        return $this->occurred_at;
     }
     
     

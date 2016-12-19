@@ -51,4 +51,36 @@ class SequenceGroup
         return $this->title;
     }
     
+    /**
+     *
+     * @param $resolveGroupNameFromSequenceGroup    is a callable which recieves a sequence and must return a name of
+     *                                              the group this event should belong to
+     *
+     * @return array of SequenceGroup objects
+     */
+    public function splitInGroups(callable $resolveGroupNameFromSequenceGroup): array
+    {
+        
+        //
+        // Fill up the groups array (each sequence will belong to one group only)
+        //
+        $groups = [];
+        foreach ($this->getSequences() as $sequence) {
+            $group_name = $resolveGroupNameFromSequenceGroup($sequence);
+            if (!isset($groups[$group_name])) {
+                $groups[$group_name] = [];
+            }
+            
+            $groups[$group_name][] = $sequence;
+        }
+        
+        //
+        // Now make sequence groups from arrays
+        //
+        foreach ($groups as $group_name => $sequences) {
+            $groups[$group_name] = new SequenceGroup($sequences, $group_name);
+        }
+        
+        return $groups;
+    }
 }
