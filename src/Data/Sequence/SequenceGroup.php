@@ -54,7 +54,8 @@ class SequenceGroup
     /**
      *
      * @param $resolveGroupNameFromSequenceGroup    is a callable which recieves a sequence and must return a name of
-     *                                              the group this event should belong to
+     *                                              the group this event should belong to. False response means I want
+     *                                              to exclude this sequence from results at all.
      *
      * @return array of SequenceGroup objects
      */
@@ -67,6 +68,12 @@ class SequenceGroup
         $groups = [];
         foreach ($this->getSequences() as $sequence) {
             $group_name = $resolveGroupNameFromSequenceGroup($sequence);
+            
+            if ($group_name === false) {
+                // exclude this sequence from grouping
+                continue;
+            }
+            
             if (!isset($groups[$group_name])) {
                 $groups[$group_name] = [];
             }
